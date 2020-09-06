@@ -27,7 +27,7 @@ const theme = createMuiTheme({
     },
     secondary: {
       light: '#f9f9f9',
-      main: '#EEF1FA',
+      main: '#EEF1FA55',
     },
   },
 });
@@ -74,7 +74,7 @@ function App() {
             <Switch>
               {
                 user.data ? (<>
-                  <Route exact path="/" render={(props) => (<Container {...props} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />)} />
+                  <Route path="/" render={(props) => (<Container {...props} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />)} />
                   <Route exact path="/login"><Redirect to="/"></Redirect></Route>
                   <Route exact path="/signup"><Redirect to="/"></Redirect></Route>
                 </>) : (<>

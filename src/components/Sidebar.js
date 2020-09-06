@@ -1,9 +1,15 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
 
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Hidden, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import HomeIcon from '@material-ui/icons/Home';
+import PersonIcon from '@material-ui/icons/Person';
+import LockIcon from '@material-ui/icons/LockOpen';
+import PaymentIcon from '@material-ui/icons/Payment';
 
 import Button from './StyledComponents/Button';
 import logo from '../resources/logo.png';
@@ -73,22 +79,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const sidebarSections = {
+  home: { name: 'Home', icon: <HomeIcon fontSize="small" /> },
+  profile: { name: 'Profile', icon: <PersonIcon fontSize="small" /> },
+  account: { name: 'Account', icon: <LockIcon fontSize="small" /> },
+  payments: { name: 'Payments', icon: <PaymentIcon fontSize="small" /> },
+};
+
 const Sidebar = (props) => {
   const classes = useStyles();
+  let location = useLocation();
 
   const sideBarContent = (<>
     <div className={classes.listContainer}>
       <List className={classes.list}>
-        {Object.entries(props.sidebarSections).map(([key, section]) => (
-          <ListItem
-            className={`${classes.item} ${props.selectedSection === key ? classes.selected : ''}`}
-            key={section.name}
-            onClick={() => props.setSelectedSection(key)}
-          >
-            <ListItemIcon className={`${classes.icon} ${props.selectedSection === key ? classes.selectedText : ''}`}>{section.icon}</ListItemIcon>
-            <ListItemText className={`${props.selectedSection === key ? classes.selectedText : ''}`} primary={section.name} />
-          </ListItem>
-        ))}
+        {Object.entries(sidebarSections).map(([key, section]) => {
+          const routeMatch = location.pathname === `/${key}` || (location.pathname === '/' && key === 'home');
+          return (
+            <Link to={key === 'home' ? `/` : `/${key}`} key={key}>
+              <ListItem className={`${classes.item} ${routeMatch ? classes.selected : ''}`}>
+                <ListItemIcon className={`${classes.icon} ${routeMatch ? classes.selectedText : ''}`}>{section.icon}</ListItemIcon>
+                <ListItemText className={`${routeMatch ? classes.selectedText : ''}`} primary={section.name} />
+              </ListItem>
+            </Link>
+          )
+        })}
       </List>
       <div className={classes.navbarButtons}>
         <hr />

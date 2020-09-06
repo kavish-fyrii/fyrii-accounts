@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { Route, useRouteMatch, Switch } from 'react-router-dom';
 
-import HomeIcon from '@material-ui/icons/Home';
-import PersonIcon from '@material-ui/icons/Person';
-import LockIcon from '@material-ui/icons/LockOpen';
-import PaymentIcon from '@material-ui/icons/Payment';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Sidebar from './components/Sidebar';
@@ -24,26 +21,20 @@ const useStyles = makeStyles((theme) => ({
 
 function Container(props) {
   const classes = useStyles();
-  const [selectedSection, setSelectedSection] = useState('home');
 
-  const sidebarSections = {
-    home: { name: 'Home', icon: <HomeIcon fontSize="small" />, component: <Home /> },
-    profile: { name: 'Profile', icon: <PersonIcon fontSize="small" />, component: <Profile /> },
-    account: { name: 'Account', icon: <LockIcon fontSize="small" /> },
-    payments: { name: 'Payments', icon: <PaymentIcon fontSize="small" /> },
-  };
+  const { path } = useRouteMatch();
 
   return (
     <div className={classes.container}>
       <Sidebar
         isSidebarOpen={props.isSidebarOpen}
         toggleSidebar={props.toggleSidebar}
-        sidebarSections={sidebarSections}
-        selectedSection={selectedSection}
-        setSelectedSection={setSelectedSection}
       />
       <div className={classes.section}>
-        {sidebarSections[selectedSection].component || sidebarSections[selectedSection].name}
+        <Switch>
+          <Route exact path={path} component={Home} />
+          <Route exact path={`${path}profile`} component={Profile} />
+        </Switch>
       </div>
     </div>
   );

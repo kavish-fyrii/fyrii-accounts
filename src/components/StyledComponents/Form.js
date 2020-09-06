@@ -32,7 +32,7 @@ function Form(props) {
 
   return (<>
     <div className={classes.container}>
-      <div className={`${classes.title} ${classes.form}`}><h2>{title}</h2></div>
+      <div className={`${classes.title} ${classes.form} ${narrowForm ? classes.narrowForm : ''}`}><h2>{title}</h2></div>
       <FormControl className={`${classes.form} ${narrowForm ? classes.narrowForm : ''}`}>
         {children}
       </FormControl>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 import {
   Button,
@@ -69,7 +70,7 @@ function HomeCard(props) {
           {props.content}
         </CardContent>
         <CardActions className={classes.cardAction}>
-          <Button className={classes.cardButton}>{props.buttonText}</Button>
+          <Link to={'/' + props.link}><Button className={classes.cardButton}>{props.buttonText}</Button></Link>
         </CardActions>
       </Card>
     </Grid>
@@ -94,6 +95,7 @@ function Home() {
           </p>
         </div>)}
         buttonText="Manage your Organizations"
+        link="organizations"
       />
       <HomeCard
         title="Upgrade Requests"
@@ -106,6 +108,7 @@ function Home() {
           </p>
         </div>)}
         buttonText="Upgrade your account"
+        link="account/upgrade"
       />
       <HomeCard
         title="Account Settings"
@@ -114,6 +117,7 @@ function Home() {
           <p>Update your email or password on the go (will require email confirmation).</p>
         </div>)}
         buttonText="Go to settings"
+        link="account"
       />
       <HomeCard
         title="Payments and Transactions"
@@ -131,6 +135,7 @@ function Home() {
           </p>
         </div>)}
         buttonText="Manage Payment Information"
+        link="payments"
       />
     </Grid>
   </>);

@@ -11,7 +11,7 @@ import Form from './StyledComponents/Form';
 
 const useStyles = makeStyles((theme) => ({
   textInput: {
-    background: '#f9f9f9',
+    background: '#fff',
     padding: theme.spacing(2),
   },
   addressLabel: {
