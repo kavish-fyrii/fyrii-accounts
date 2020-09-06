@@ -1,10 +1,23 @@
 import React, { useState } from "react";
-import { TextField, FormControl } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
 
 import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
+import { makeStyles } from '@material-ui/core/styles';
 
-import Spinner from '../../resources/spinner.svg';
+import Button from '../StyledComponents/Button';
+import Form from '../StyledComponents/Form';
+import TextField from '../StyledComponents/TextField';
+
+const useStyles = makeStyles((theme) => ({
+  link: {
+    textAlign: 'left',
+    fontSize: '16px',
+    cursor: 'pointer',
+    "&:hover": {
+      textShadow: '0.3px 0.3px rgba(128, 128, 128, 0.4)',
+    },
+  },
+}));
 
 function SignupField(props) {
   return (
@@ -22,6 +35,7 @@ function SignupField(props) {
 }
 
 function Signup() {
+  const classes = useStyles();
   const history = useHistory();
   const [loading, setLoading] = useState();
   const [name, setName] = useState();
@@ -43,32 +57,29 @@ function Signup() {
   }
 
   return (<>
-    <div className="app-form-header"><h1>Sign up.</h1></div>
-    <div className="app-form login-form">
-      <FormControl>
-        <SignupField name="Name" required onChange={(e) => { setName(e.target.value) }} />
-        <SignupField name="Email" required onChange={(e) => { setEmail(e.target.value) }} />
-        <SignupField name="Phone" onChange={(e) => { setPhone(e.target.value) }} />
-        <SignupField name="Job Title" onChange={(e) => { setJobTitle(e.target.value) }} />
-        <SignupField name="Username" required onChange={(e) => { setUsername(e.target.value) }} />
-        <SignupField name="Password" type="password" required onChange={(e) => { setPassword(e.target.value) }} />
-        <SignupField name="Confirm Password" type="password" required onChange={(e) => { setPassword2(e.target.value) }} />
-        <div>
-          <div className='login-form-link login-form-link-right' onClick={() => { history.push(`/login`); }}>Already have an account? Sign in</div>
-          <br />
-          <button
-            className={`primary-button ${loading ? 'primary-button-no-padding' : ''}`}
-            onClick={() => {
-              if (password !== password2) return;
-              setLoading(true);
-              FyriiAuthHelpers.signup({ name, jobTitle, email, phone, username, password }, signupSuccess, signupFailed);
-            }}
-          >
-            {loading ? (<img width={68} height={32} className="loading-spinner" src={Spinner} alt="loading" />) : 'Sign up'}
-          </button>
-        </div>
-      </FormControl>
-    </div>
+    <Form title="Sign up." narrowForm>
+      <SignupField name="Name" required onChange={(e) => { setName(e.target.value) }} />
+      <SignupField name="Email" required onChange={(e) => { setEmail(e.target.value) }} />
+      <SignupField name="Phone" onChange={(e) => { setPhone(e.target.value) }} />
+      <SignupField name="Job Title" onChange={(e) => { setJobTitle(e.target.value) }} />
+      <SignupField name="Username" required onChange={(e) => { setUsername(e.target.value) }} />
+      <SignupField name="Password" type="password" required onChange={(e) => { setPassword(e.target.value) }} />
+      <SignupField name="Confirm Password" type="password" required onChange={(e) => { setPassword2(e.target.value) }} />
+      <div>
+        <div className={classes.link} onClick={() => { history.push(`/login`); }}>Already have an account? Sign in</div>
+        <br />
+        <Button
+          loading={loading}
+          onClick={() => {
+            if (password !== password2) return;
+            setLoading(true);
+            FyriiAuthHelpers.signup({ name, jobTitle, email, phone, username, password }, signupSuccess, signupFailed);
+          }}
+        >
+          Sign up
+        </Button>
+      </div>
+    </Form>
   </>);
 }
 

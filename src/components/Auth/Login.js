@@ -1,10 +1,26 @@
 import React, { useState } from "react";
-import { TextField, FormControl } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
 
 import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
+import { makeStyles } from '@material-ui/core/styles';
 
-import Spinner from '../../resources/spinner.svg';
+import Button from '../StyledComponents/Button';
+import Form from '../StyledComponents/Form';
+import TextField from '../StyledComponents/TextField';
+
+const useStyles = makeStyles((theme) => ({
+  link: {
+    textAlign: 'left',
+    fontSize: '16px',
+    cursor: 'pointer',
+    "&:hover": {
+      textShadow: '0.3px 0.3px rgba(128, 128, 128, 0.4)',
+    },
+  },
+  linkRight: {
+    float: 'right',
+  },
+}));
 
 function LoginField(props) {
   return (
@@ -23,6 +39,7 @@ function LoginField(props) {
 }
 
 function Login() {
+  const classes = useStyles();
   const history = useHistory();
   const [loading, setLoading] = useState();
   const [username, setUsername] = useState();
@@ -35,7 +52,7 @@ function Login() {
 
   const loginFailed = (err) => {
     console.error('loginFailed', err.message ? `${err.code} ${err.message}` : JSON.stringify(err));
-    if (err.code === "UserNotConfirmedException") {
+    if (err.code === 'UserNotConfirmedException') {
       history.push(`/confirm`);
     } else {
       setLoading(false);
@@ -43,27 +60,24 @@ function Login() {
   }
 
   return (<>
-    <div className="app-form-header"><h1>Login.</h1></div>
-    <div className="app-form login-form">
-      <FormControl>
-        <LoginField name="Username" onChange={(e) => { setUsername(e.target.value) }} />
-        <LoginField name="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
-        <div>
-          <div className='login-form-link login-form-link-right' onClick={() => { history.push(`/signup`); }}>Don't have an account? Sign Up</div>
-          <div className='login-form-link' onClick={() => { history.push(`/forgot-password`); }}>Forgot password?</div>
-          <br />
-          <button
-            className={`primary-button ${loading ? 'primary-button-no-padding' : ''}`}
-            onClick={() => {
-              setLoading(true);
-              FyriiAuthHelpers.login(username, password, loginSuccess, loginFailed);
-            }}
-          >
-            {loading ? (<img width={68} height={32} className="loading-spinner" src={Spinner} alt="loading" />) : 'Login'}
-          </button>
-        </div>
-      </FormControl>
-    </div>
+    <Form title="Login." narrowForm>
+      <LoginField name="Username" onChange={(e) => { setUsername(e.target.value) }} />
+      <LoginField name="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
+      <div>
+        <div className={`${classes.link} ${classes.linkRight}`} onClick={() => { history.push(`/signup`); }}>Don't have an account? Sign Up</div>
+        <div className={classes.link} onClick={() => { history.push(`/forgot-password`); }}>Forgot password?</div>
+        <br />
+        <Button
+          loading={loading}
+          onClick={() => {
+            setLoading(true);
+            FyriiAuthHelpers.login(username, password, loginSuccess, loginFailed);
+          }}
+        >
+          Login
+        </Button>
+      </div>
+    </Form>
   </>);
 }
 

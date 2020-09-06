@@ -1,16 +1,24 @@
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
-import { TextField, FormControl } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { UserContext } from '../UserContext';
 import { USER_API_PREFIX } from '../constants';
-import Spinner from '../resources/spinner.svg';
+
+import Button from './StyledComponents/Button';
+import Form from './StyledComponents/Form';
 
 const useStyles = makeStyles((theme) => ({
+  textField: {
+    margin: theme.spacing(1, 0),
+  },
   textInput: {
     background: 'white',
     padding: theme.spacing(2),
+  },
+  addressLabel: {
+    fontSize: '22px',
   },
   message: {
     margin: theme.spacing(2, 0),
@@ -21,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   successMessage: {
     color: 'green',
-  }
+  },
 }));
 
 function ProfileField(props) {
@@ -30,6 +38,7 @@ function ProfileField(props) {
   return (
     <TextField
       {...props}
+      className={classes.textField}
       error={props.required && props.error && (!props.defaultValue || props.defaultValue.trim().length === 0)}
       inputProps={{ className: classes.textInput }}
       autoComplete={props.name.toLowerCase().split(' ').join('-')}
@@ -133,42 +142,39 @@ function Profile() {
       });
   }
 
-  return (<>
-    <div className="app-form-header"><h1>Profile</h1></div>
-    <div className="app-form">
-      <FormControl>
-        <ProfileField name="Name" error={error} required defaultValue={name} onChange={(e) => { setName(e.target.value) }} />
-        <ProfileField name="Email" disabled required defaultValue={email} helperText="To modify your email, please go to account settings" />
-        <ProfileField name="Phone" error={error} required defaultValue={phone} onChange={(e) => { setPhone(e.target.value) }} />
-        <ProfileField name="Job Title" defaultValue={jobTitle} onChange={(e) => { setJobTitle(e.target.value) }} />
-        <ProfileField name="Website" defaultValue={website} onChange={(e) => { setWebsite(e.target.value) }} />
-        <ProfileField name="Twitter" defaultValue={twitter} onChange={(e) => { setTwitter(e.target.value) }} />
-        <ProfileField name="Linkedin" defaultValue={linkedin} onChange={(e) => { setLinkedin(e.target.value) }} />
-        <ProfileField name="Expertise" placeholder={'Enter comma separated areas of expertise'} defaultValue={about} onChange={(e) => { setAbout(e.target.value) }} />
-        <br />
-        <div className="address-label">Address</div>
-        <ProfileField name="Street" error={error} required={addressStarted} defaultValue={streetAddress} onChange={(e) => { setStreetAddress(e.target.value) }} />
-        <ProfileField name="City" error={error} required={addressStarted}  defaultValue={city} onChange={(e) => { setCity(e.target.value) }} />
-        <ProfileField name="Zip" error={error} required={addressStarted}  defaultValue={zip} onChange={(e) => { setZip(e.target.value) }} />
-        <ProfileField name="State" error={error} required={addressStarted} defaultValue={state} onChange={(e) => { setState(e.target.value) }} />
-        <ProfileField name="Country" error={error} required={addressStarted} defaultValue={country} onChange={(e) => { setCountry(e.target.value) }} />
+  return (
+    <Form title="Profile">
+      <ProfileField name="Name" error={error} required defaultValue={name} onChange={(e) => { setName(e.target.value) }} />
+      <ProfileField name="Email" disabled required defaultValue={email} helperText="To modify your email, please go to account settings" />
+      <ProfileField name="Phone" error={error} required defaultValue={phone} onChange={(e) => { setPhone(e.target.value) }} />
+      <ProfileField name="Job Title" defaultValue={jobTitle} onChange={(e) => { setJobTitle(e.target.value) }} />
+      <ProfileField name="Website" defaultValue={website} onChange={(e) => { setWebsite(e.target.value) }} />
+      <ProfileField name="Twitter" defaultValue={twitter} onChange={(e) => { setTwitter(e.target.value) }} />
+      <ProfileField name="Linkedin" defaultValue={linkedin} onChange={(e) => { setLinkedin(e.target.value) }} />
+      <ProfileField name="Expertise" placeholder={'Enter comma separated areas of expertise'} defaultValue={about} onChange={(e) => { setAbout(e.target.value) }} />
+      <br />
+      <div className={classes.addressLabel}>Address</div>
+      <ProfileField name="Street" error={error} required={addressStarted} defaultValue={streetAddress} onChange={(e) => { setStreetAddress(e.target.value) }} />
+      <ProfileField name="City" error={error} required={addressStarted}  defaultValue={city} onChange={(e) => { setCity(e.target.value) }} />
+      <ProfileField name="Zip" error={error} required={addressStarted}  defaultValue={zip} onChange={(e) => { setZip(e.target.value) }} />
+      <ProfileField name="State" error={error} required={addressStarted} defaultValue={state} onChange={(e) => { setState(e.target.value) }} />
+      <ProfileField name="Country" error={error} required={addressStarted} defaultValue={country} onChange={(e) => { setCountry(e.target.value) }} />
 
-        <div className={classes.message}>
-          {error ? (<div className={classes.errorMessage}>There was an error saving your information. Please ensure all required fields are filled.</div>) : null}
-          {success ? (<div className={classes.successMessage}>Profile update successfully!</div>) : null}
-        </div>
+      <div className={classes.message}>
+        {error ? (<div className={classes.errorMessage}>There was an error saving your information. Please ensure all required fields are filled.</div>) : null}
+        {success ? (<div className={classes.successMessage}>Profile update successfully!</div>) : null}
+      </div>
 
-        <div>
-          <button
-            className={`primary-button ${saving ? 'primary-button-no-padding' : ''}`}
-            onClick={saveProfile}
-          >
-            {saving ? (<img width={68} height={32} className="loading-spinner" src={Spinner} alt="loading" />) : 'Save Changes'}
-          </button>
-        </div>
-      </FormControl>
-    </div>
-  </>);
+      <div>
+        <Button
+          loading={saving}
+          onClick={saveProfile}
+        >
+          Save Changes
+        </Button>
+      </div>
+    </Form>
+  );
 }
 
 export default Profile;

@@ -5,6 +5,8 @@ import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Button from './StyledComponents/Button';
+
 const sidebarWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -14,20 +16,32 @@ const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     },
   },
-  sidebarPaper: {
+  paper: {
+    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
     width: sidebarWidth,
     background: theme.palette.secondary.main,
   },
-  sidebarContainer: {
+  listContainer: {
     overflow: 'auto',
   },
   toolbar: theme.mixins.toolbar,
-  sectionsList: {
+  list: {
     paddingTop: theme.spacing(2),
   },
-  sectionItem: {
-    margin: theme.spacing(1, 0),
-    padding: theme.spacing(1, 4),
+  item: {
+    cursor: 'pointer',
+    margin: theme.spacing(1.5, 0),
+    padding: theme.spacing(0.5, 4),
+    "&:hover": {
+      color: theme.palette.primary.dark,
+      transition: 'color 0.25s ease',
+    },
+  },
+  selected: {
+    background: 'rgba(122, 122, 122, 0.1)',
+  },
+  icon: {
+    minWidth: '36px',
   },
   navbarButtons: {
     padding: theme.spacing(2),
@@ -41,11 +55,15 @@ const Sidebar = (props) => {
   const classes = useStyles();
 
   const sideBarContent = (<>
-    <div className={classes.sidebarContainer}>
-      <List className={classes.sectionsList}>
+    <div className={classes.listContainer}>
+      <List className={classes.list}>
         {Object.entries(props.sidebarSections).map(([key, section]) => (
-          <ListItem className={classes.sectionItem} button key={section.name} onClick={() => props.setSelectedSection(key)}>
-            <ListItemIcon>{section.icon}</ListItemIcon>
+          <ListItem
+            className={`${classes.item} ${props.selectedSection === key ? classes.selected : ''}`}
+            key={section.name}
+            onClick={() => props.setSelectedSection(key)}
+          >
+            <ListItemIcon className={classes.icon}>{section.icon}</ListItemIcon>
             <ListItemText primary={section.name} />
           </ListItem>
         ))}
@@ -53,15 +71,8 @@ const Sidebar = (props) => {
       <div className={classes.navbarButtons}>
         <hr />
         <br />
-        <div className="navbar-greeting">
-          <button
-            className="primary-button"
-            onClick={() => {
-              FyriiAuthHelpers.signOutFyrii();
-            }}
-          >
-            Sign Out
-          </button>
+        <div>
+          <Button onClick={() => { FyriiAuthHelpers.signOutFyrii(); }}>Sign Out</Button>
         </div>
       </div>
     </div>
@@ -75,7 +86,7 @@ const Sidebar = (props) => {
           anchor="left"
           open={props.isSidebarOpen}
           onClose={props.toggleSidebar}
-          classes={{ paper: classes.sidebarPaper }}
+          classes={{ paper: classes.paper }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
@@ -86,7 +97,7 @@ const Sidebar = (props) => {
       </Hidden>
       <Hidden smDown implementation="css">
         <Drawer
-          classes={{ paper: classes.sidebarPaper }}
+          classes={{ paper: classes.paper }}
           variant="permanent"
           open
         >

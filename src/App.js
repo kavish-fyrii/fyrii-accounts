@@ -8,13 +8,12 @@ import {
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import './App.css';
 import { UserContext } from './UserContext';
 
 import Navbar from './components/Navbar';
-import Home from './components/Home';
+import Container from './Container';
 import Footer from './components/Footer';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
@@ -24,14 +23,25 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#6c71d4',
+      dark: '#585ece',
     },
     secondary: {
+      light: '#f9f9f9',
       main: '#EEF1FA',
     },
   },
 });
 
+const useStyles = makeStyles(() => ({
+  appContainer: {
+    minHeight: '700px',
+    background: theme.palette.secondary.main,
+    padding: '80px 10px',
+  },
+}));
+
 function App() {
+  const classes = useStyles();
   const user = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -58,13 +68,13 @@ function App() {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <div className="App">
+        <div>
           <Navbar toggleSidebar={toggleSidebar} />
-          <div className="app-container">
+          <div className={classes.appContainer}>
             <Switch>
               {
                 user.data ? (<>
-                  <Route exact path="/" render={(props) => (<Home {...props} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />)} />
+                  <Route exact path="/" render={(props) => (<Container {...props} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />)} />
                   <Route exact path="/login"><Redirect to="/"></Redirect></Route>
                   <Route exact path="/signup"><Redirect to="/"></Redirect></Route>
                 </>) : (<>

@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Symbol from '../resources/Symbol.png'
+import './Footer.css';
 
 const useStyles = makeStyles((theme) => ({
   footer: {

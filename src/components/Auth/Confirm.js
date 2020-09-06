@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { TextField, FormControl } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
 
 import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
 
-import Spinner from '../../resources/spinner.svg';
+import Button from '../StyledComponents/Button';
+import Form from '../StyledComponents/Form';
+import TextField from '../StyledComponents/TextField';
 
 function LoginField(props) {
   return (
@@ -43,26 +44,23 @@ function Confirm() {
   }
 
   return (<>
-    <div className="app-form-header"><h1>Confirm User.</h1></div>
-    <div className="app-form login-form">
-      <FormControl>
-        <LoginField name="Username" onChange={(e) => { setUsername(e.target.value) }} />
-        <LoginField name="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
-        <LoginField name="Confirmation Code" onChange={(e) => { setCode(e.target.value) }} />
-        <div>
-          <br />
-          <button
-            className="primary-button"
-            onClick={() => {
-              setLoading(true);
-              FyriiAuthHelpers.confirmUser(username, password, code, confirmSuccess, confirmFailed);
-            }}
-          >
-            {loading ? (<img width={68} height={32} className="loading-spinner" src={Spinner} alt="loading" />) : 'Confirm'}
-          </button>
-        </div>
-      </FormControl>
-    </div>
+    <Form title="Confirm User." narrowForm>
+      <LoginField name="Username" onChange={(e) => { setUsername(e.target.value) }} />
+      <LoginField name="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
+      <LoginField name="Confirmation Code" onChange={(e) => { setCode(e.target.value) }} />
+      <div>
+        <br />
+        <Button
+          loading={loading}
+          onClick={() => {
+            setLoading(true);
+            FyriiAuthHelpers.confirmUser(username, password, code, confirmSuccess, confirmFailed);
+          }}
+        >
+          Confirm
+        </Button>
+      </div>
+    </Form>
   </>);
 }
 

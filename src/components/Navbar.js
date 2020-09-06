@@ -7,6 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Button from './StyledComponents/Button';
 import { UserContext } from '../UserContext';
 import logo from '../resources/logo.png';
 
@@ -15,8 +16,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   navBar: {
+    padding: theme.spacing(1, 2),
     zIndex: theme.zIndex.drawer + 1,
-    background: 'white',
+    background: theme.palette.secondary.light,
     color: 'rgba(0, 0, 0, .5)',
   },
   toolbar: {
@@ -38,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
   homeButton: {
     display: 'flex',
   },
+  homeButtonImg: {
+    width: '90px',
+    height: 'auto',
+    paddingRight: '7px',
+    paddingBottom: '2px',
+  },
   navbarName: {
     marginTop: theme.spacing(0.5),
     textDecoration: 'none',
@@ -48,10 +56,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   navbarButtons: {
+    display: 'flex',
+  },
+  navBarGreeting: {
+    display: 'flex',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
   },
+  navBarGreetingText: {
+    margin: theme.spacing(1.5, 2),
+    fontSize: '1rem',
+  }
 }));
 
 function NavBar(props) {
@@ -60,7 +76,7 @@ function NavBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={`navbar ${classes.navBar}`}>
+      <AppBar position="fixed" className={classes.navBar}>
         <div className={classes.toolbar}>
            {user.data ? <IconButton
             color="inherit"
@@ -73,30 +89,23 @@ function NavBar(props) {
           </IconButton> : null}
           <Link to="/" className={classes.homeButtonLink}>
             <div className={classes.homeButton}>
-              <img src={logo} className="logo" alt="Fyrii Logo"/>
+              <img src={logo} className={classes.homeButtonImg} alt="Fyrii Logo"/>
               <Typography className={classes.navbarName} noWrap>
                 Accounts
               </Typography>
             </div>
           </Link>
-          <div className="navbar-buttons">
+          <div className={classes.navbarButtons}>
             {user.data ? (
-              <div className={`${classes.navbarButtons} navbar-greeting`}>
-                <span className="navbar-greeting-text">Welcome, {user.data.fullname.split(' ')[0]}!</span>
-                <button
-                  className="primary-button"
-                  onClick={() => {
-                    FyriiAuthHelpers.signOutFyrii();
-                  }}
-                >
-                  Sign Out
-                </button>
+              <div className={classes.navBarGreeting}>
+                <div className={classes.navBarGreetingText}>Welcome, {user.data.fullname.split(' ')[0]}!</div>
+                <Button onClick={() => { FyriiAuthHelpers.signOutFyrii(); }}>Sign Out</Button>
               </div>
             ) : (
               <React.Fragment>
-                <Link to="/login"><button className="primary-button">Log In</button></Link>
+                <Link to="/login"><Button>Log In</Button></Link>
                 <div style={{ width: '7px' }} />
-                <Link to="/signup"><button className="secondary-button">Sign Up</button></Link>
+                <Link to="/signup"><Button secondary>Sign Up</Button></Link>
               </React.Fragment>
             )}
           </div>
