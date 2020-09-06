@@ -2,10 +2,11 @@ import React from 'react';
 
 import * as FyriiAuthHelpers from 'fyrii-auth/lib/helpers';
 
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Hidden } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Hidden, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from './StyledComponents/Button';
+import logo from '../resources/logo.png';
 
 const sidebarWidth = 260;
 
@@ -21,6 +22,22 @@ const useStyles = makeStyles((theme) => ({
     width: sidebarWidth,
     background: theme.palette.secondary.main,
   },
+  homeButton: {
+    background: theme.palette.secondary.light,
+    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
+    display: 'flex',
+    padding: theme.spacing(2),
+  },
+  homeButtonImg: {
+    width: '90px',
+    height: 'auto',
+    paddingRight: '7px',
+    paddingBottom: '2px',
+  },
+  navbarName: {
+    marginTop: theme.spacing(0.5),
+    color: 'rgba(0, 0, 0, .5)',
+  },
   listContainer: {
     overflow: 'auto',
   },
@@ -30,18 +47,23 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     cursor: 'pointer',
-    margin: theme.spacing(1.5, 0),
+    margin: theme.spacing(1, 0),
     padding: theme.spacing(0.5, 4),
+    color: '#467fcf',
     "&:hover": {
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.light,
       transition: 'color 0.25s ease',
     },
   },
   selected: {
-    background: 'rgba(122, 122, 122, 0.1)',
+    background: 'rgba(130, 122, 230, 0.07)',
   },
   icon: {
-    minWidth: '36px',
+    minWidth: '30px',
+    color: '#467fcf',
+  },
+  selectedText: {
+    color: theme.palette.primary.dark,
   },
   navbarButtons: {
     padding: theme.spacing(2),
@@ -63,8 +85,8 @@ const Sidebar = (props) => {
             key={section.name}
             onClick={() => props.setSelectedSection(key)}
           >
-            <ListItemIcon className={classes.icon}>{section.icon}</ListItemIcon>
-            <ListItemText primary={section.name} />
+            <ListItemIcon className={`${classes.icon} ${props.selectedSection === key ? classes.selectedText : ''}`}>{section.icon}</ListItemIcon>
+            <ListItemText className={`${props.selectedSection === key ? classes.selectedText : ''}`} primary={section.name} />
           </ListItem>
         ))}
       </List>
@@ -91,7 +113,12 @@ const Sidebar = (props) => {
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          <br />
+          <div className={classes.homeButton}>
+            <img src={logo} className={classes.homeButtonImg} alt="Fyrii Logo"/>
+            <Typography className={classes.navbarName} noWrap>
+              Accounts
+            </Typography>
+          </div>
           {sideBarContent}
         </Drawer>
       </Hidden>
@@ -102,6 +129,7 @@ const Sidebar = (props) => {
           open
         >
           <Toolbar />
+          <br />
           {sideBarContent}
         </Drawer>
       </Hidden>

@@ -38,14 +38,14 @@ const styles = (theme) => ({
 });
 
 function AppButton(props) {
-  const { classes, children, loading, secondary, onClick } = props;
+  const { classes, children, loading, secondary, onClick, size } = props;
   const classNames = [classes.root];
-  if (loading) classNames.push(classes.loading);
+  if (loading || size === 'small') classNames.push(classes.loading);
   if (secondary) classNames.push(classes.secondary);
 
   const spinner = (<img width={68} height={32} src={Spinner} alt="loading" />)
 
-  return <Button className={classNames.join(' ')} onClick={onClick}>{loading ? spinner : children}</Button>;
+  return <Button size={size} className={classNames.join(' ')} onClick={onClick}>{loading ? spinner : children}</Button>;
 }
 
 

@@ -6,8 +6,9 @@ import LockIcon from '@material-ui/icons/LockOpen';
 import PaymentIcon from '@material-ui/icons/Payment';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Profile from './components/Profile';
 import Sidebar from './components/Sidebar';
+import Home from './components/Home';
+import Profile from './components/Profile';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,15 +22,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home(props) {
+function Container(props) {
   const classes = useStyles();
-  const [selectedSection, setSelectedSection] = useState('profile');
+  const [selectedSection, setSelectedSection] = useState('home');
 
   const sidebarSections = {
-    home: { name: 'Home', icon: <HomeIcon /> },
-    profile: { name: 'Profile', icon: <PersonIcon />, component: <Profile /> },
-    account: { name: 'Account', icon: <LockIcon /> },
-    payments: { name: 'Payments', icon: <PaymentIcon /> },
+    home: { name: 'Home', icon: <HomeIcon fontSize="small" />, component: <Home /> },
+    profile: { name: 'Profile', icon: <PersonIcon fontSize="small" />, component: <Profile /> },
+    account: { name: 'Account', icon: <LockIcon fontSize="small" /> },
+    payments: { name: 'Payments', icon: <PaymentIcon fontSize="small" /> },
   };
 
   return (
@@ -48,4 +49,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default Container;

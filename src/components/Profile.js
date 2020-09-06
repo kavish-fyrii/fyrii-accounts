@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
-import { TextField } from '@material-ui/core';
+import { TextField, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { UserContext } from '../UserContext';
@@ -10,15 +10,13 @@ import Button from './StyledComponents/Button';
 import Form from './StyledComponents/Form';
 
 const useStyles = makeStyles((theme) => ({
-  textField: {
-    margin: theme.spacing(1, 0),
-  },
   textInput: {
-    background: 'white',
+    background: '#f9f9f9',
     padding: theme.spacing(2),
   },
   addressLabel: {
     fontSize: '22px',
+    marginTop: theme.spacing(2),
   },
   message: {
     margin: theme.spacing(2, 0),
@@ -36,18 +34,19 @@ function ProfileField(props) {
   const classes = useStyles();
 
   return (
-    <TextField
-      {...props}
-      className={classes.textField}
-      error={props.required && props.error && (!props.defaultValue || props.defaultValue.trim().length === 0)}
-      inputProps={{ className: classes.textInput }}
-      autoComplete={props.name.toLowerCase().split(' ').join('-')}
-      name={props.name.toLowerCase().split(' ').join('-')}
-      variant="outlined"
-      fullWidth
-      id={props.name.toLowerCase().split(' ').join('-')}
-      label={props.name}
-    />
+    <Grid item xs={props.xs || 12} sm={props.sm || 12}>
+      <TextField
+        error={props.required && props.error && (!props.defaultValue || props.defaultValue.trim().length === 0)}
+        inputProps={{ className: classes.textInput }}
+        autoComplete={props.name.toLowerCase().split(' ').join('-')}
+        name={props.name.toLowerCase().split(' ').join('-')}
+        variant="outlined"
+        fullWidth
+        id={props.name.toLowerCase().split(' ').join('-')}
+        label={props.name}
+        {...props}
+      />
+    </Grid>
   )
 }
 
@@ -56,6 +55,7 @@ function Profile() {
   const user = React.useContext(UserContext);
   const [name, setName] = useState(user.data.fullname?.trim());
   const [jobTitle, setJobTitle] = useState(user.data.jobtitle?.trim());
+  const [company, setCompany] = useState(user.data.company?.trim());
   const [about, setAbout] = useState(user.data.about?.trim());
   const [email] = useState(user.data.email?.trim());
   const [phone, setPhone] = useState(user.data.phone?.trim());
@@ -114,6 +114,7 @@ function Profile() {
     axios.put(`${USER_API_PREFIX}/users/${user.data.id}`, {
       fullname: name,
       jobtitle: jobTitle,
+      company,
       about,
       email,
       phone,
@@ -144,22 +145,24 @@ function Profile() {
 
   return (
     <Form title="Profile">
-      <ProfileField name="Name" error={error} required defaultValue={name} onChange={(e) => { setName(e.target.value) }} />
-      <ProfileField name="Email" disabled required defaultValue={email} helperText="To modify your email, please go to account settings" />
-      <ProfileField name="Phone" error={error} required defaultValue={phone} onChange={(e) => { setPhone(e.target.value) }} />
-      <ProfileField name="Job Title" defaultValue={jobTitle} onChange={(e) => { setJobTitle(e.target.value) }} />
-      <ProfileField name="Website" defaultValue={website} onChange={(e) => { setWebsite(e.target.value) }} />
-      <ProfileField name="Twitter" defaultValue={twitter} onChange={(e) => { setTwitter(e.target.value) }} />
-      <ProfileField name="Linkedin" defaultValue={linkedin} onChange={(e) => { setLinkedin(e.target.value) }} />
-      <ProfileField name="Expertise" placeholder={'Enter comma separated areas of expertise'} defaultValue={about} onChange={(e) => { setAbout(e.target.value) }} />
-      <br />
-      <div className={classes.addressLabel}>Address</div>
-      <ProfileField name="Street" error={error} required={addressStarted} defaultValue={streetAddress} onChange={(e) => { setStreetAddress(e.target.value) }} />
-      <ProfileField name="City" error={error} required={addressStarted}  defaultValue={city} onChange={(e) => { setCity(e.target.value) }} />
-      <ProfileField name="Zip" error={error} required={addressStarted}  defaultValue={zip} onChange={(e) => { setZip(e.target.value) }} />
-      <ProfileField name="State" error={error} required={addressStarted} defaultValue={state} onChange={(e) => { setState(e.target.value) }} />
-      <ProfileField name="Country" error={error} required={addressStarted} defaultValue={country} onChange={(e) => { setCountry(e.target.value) }} />
-
+      <Grid container spacing={2}>
+        <ProfileField name="Name" error={error} required defaultValue={name} onChange={(e) => { setName(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Email" disabled required defaultValue={email} helperText="To modify your email, please go to account settings" />
+        <ProfileField xs={12} sm={6} name="Phone" error={error} required defaultValue={phone} onChange={(e) => { setPhone(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Job Title" defaultValue={jobTitle} onChange={(e) => { setJobTitle(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Company" defaultValue={company} onChange={(e) => { setCompany(e.target.value) }} />
+        <ProfileField name="Website" defaultValue={website} onChange={(e) => { setWebsite(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Twitter" defaultValue={twitter} onChange={(e) => { setTwitter(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Linkedin" defaultValue={linkedin} onChange={(e) => { setLinkedin(e.target.value) }} />
+        <ProfileField name="Expertise" placeholder={'Enter comma separated areas of expertise'} defaultValue={about} onChange={(e) => { setAbout(e.target.value) }} />
+        <br />
+        <div className={classes.addressLabel}>Address</div>
+        <ProfileField name="Street" error={error} required={addressStarted} defaultValue={streetAddress} onChange={(e) => { setStreetAddress(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="City" error={error} required={addressStarted}  defaultValue={city} onChange={(e) => { setCity(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="State" error={error} required={addressStarted} defaultValue={state} onChange={(e) => { setState(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Zip" error={error} required={addressStarted}  defaultValue={zip} onChange={(e) => { setZip(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Country" error={error} required={addressStarted} defaultValue={country} onChange={(e) => { setCountry(e.target.value) }} />
+      </Grid>
       <div className={classes.message}>
         {error ? (<div className={classes.errorMessage}>There was an error saving your information. Please ensure all required fields are filled.</div>) : null}
         {success ? (<div className={classes.successMessage}>Profile update successfully!</div>) : null}

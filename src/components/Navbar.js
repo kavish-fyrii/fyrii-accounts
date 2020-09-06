@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   navBarGreeting: {
     display: 'flex',
+    marginRight: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
