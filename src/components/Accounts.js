@@ -103,22 +103,24 @@ function Accounts() {
   const [showPrevReqs, setShowPrevReqs] = useState(false);
 
   useEffect(() => {
-    async function fetchData () {
-      setLoading(true);
-
-      try {
-        const roleResponse = await axios.get(`${USER_API_PREFIX}/users/${user.data.id}/roles`);
-        setUserRoles(roleResponse.data);
-        const requestResponse = await axios.get(`${USER_API_PREFIX}/users/${user.data.id}/upgradeRequests`);
-        setUserRequests(requestResponse.data.Items);
-        setLoading(false);
-      } catch(err) {
-        console.log('error', err)
-        setLoading(false);
-      }
-    }
     fetchData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function fetchData (silent) {
+    setLoading(!silent && true);
+
+    try {
+      const roleResponse = await axios.get(`${USER_API_PREFIX}/users/${user.data.id}/roles`);
+      setUserRoles(roleResponse.data);
+      const requestResponse = await axios.get(`${USER_API_PREFIX}/users/${user.data.id}/upgradeRequests`);
+      setUserRequests(requestResponse.data.Items);
+      setType(null);
+      setLoading(false);
+    } catch(err) {
+      console.log('error', err)
+      setLoading(false);
+    }
+  }
 
   const upgradeClick = (title, type) => {
     setTitle(title);
@@ -150,7 +152,7 @@ function Accounts() {
       such as providing and selling content on the Fyrii Content Bazaar, or becoming part of an extensive
       network of sales and marketing experts under Fyrii's umbrella
     </p>
-    {isAdmin ? <><br /><Alert severity="info">You are recognized as an admin in the Fyrii system, which mean you already have all the roles below</Alert><br /></> : null}
+    {isAdmin ? <><Alert severity="info">You are recognized as an admin in the Fyrii system, which means you already have all the roles below</Alert><br /></> : null}
     <Grid container>
       <AccountsCard
         title="Bazaar Content Provider"
@@ -203,6 +205,7 @@ function Accounts() {
           onSuccess={() => {
             setType(null);
             setSuccess(true);
+            fetchData(true);
             setTimeout(() => {
               setSuccess(false);
             }, 3000);
