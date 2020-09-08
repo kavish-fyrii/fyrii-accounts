@@ -36,7 +36,6 @@ function ProfileField(props) {
   return (
     <Grid item xs={props.xs || 12} sm={props.sm || 12}>
       <TextField
-        error={props.required && props.error && (!props.defaultValue || props.defaultValue.trim().length === 0)}
         inputProps={{ className: classes.textInput }}
         autoComplete={props.name.toLowerCase().split(' ').join('-')}
         name={props.name.toLowerCase().split(' ').join('-')}
@@ -45,6 +44,7 @@ function ProfileField(props) {
         id={props.name.toLowerCase().split(' ').join('-')}
         label={props.name}
         {...props}
+        error={props.required && props.error && (!props.defaultValue || props.defaultValue.trim().length === 0)}
       />
     </Grid>
   )

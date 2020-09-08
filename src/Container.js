@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Sidebar from './components/Sidebar';
 import Home from './components/Home';
 import Profile from './components/Profile';
+import Accounts from './components/Accounts';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,6 +35,7 @@ function Container(props) {
         <Switch>
           <Route exact path={path} component={Home} />
           <Route exact path={`${path}profile`} component={Profile} />
+          <Route exact path={`${path}account`} component={Accounts} />
         </Switch>
       </div>
     </div>

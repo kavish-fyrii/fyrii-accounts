@@ -34,14 +34,18 @@ const styles = (theme) => ({
   },
   loading: {
     padding: '5px',
-  }
+  },
+  error: {
+    color: 'red',
+  },
 });
 
 function AppButton(props) {
-  const { classes, children, loading, secondary, onClick, size } = props;
+  const { classes, children, loading, secondary, error, onClick, size } = props;
   const classNames = [classes.root];
   if (loading || size === 'small') classNames.push(classes.loading);
   if (secondary) classNames.push(classes.secondary);
+  if (error) classNames.push(classes.error);
 
   const spinner = (<img width={68} height={32} src={Spinner} alt="loading" />)
 

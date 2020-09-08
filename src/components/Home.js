@@ -14,25 +14,27 @@ import { makeStyles } from '@material-ui/core/styles';
 import { UserContext } from '../UserContext';
 
 const useStyles = makeStyles((theme) => ({
-  element: {
-    margin: '20px 15%',
+  container: {
+    padding: '0 15%',
     [theme.breakpoints.down('sm')]: {
-      margin: '20px 10%',
+      padding: '0 10%',
     },
     [theme.breakpoints.down('xs')]: {
-      margin: '20px 2%',
+      padding: '0 2%',
     },
   },
   title: {
     textAlign: 'left',
+    margin: theme.spacing(2, 0),
   },
   subTitle: {
     color: '#666',
-    marginBottom: 0,
+    margin: theme.spacing(2, 0),
   },
   card: {
     minHeight: '200px',
     color: '#444',
+    marginBottom: theme.spacing(4),
   },
   cardTitle: {
     height: '55px',
@@ -62,7 +64,7 @@ function HomeCard(props) {
 
   return (
     <Grid  xs={12} item>
-      <Card className={`${classes.card} ${classes.element}`}>
+      <Card className={classes.card}>
         <CardContent className={classes.cardTitle}>
           {props.title}
         </CardContent>
@@ -81,9 +83,9 @@ function Home() {
   const classes = useStyles();
   const user = React.useContext(UserContext);
 
-  return (<>
-    <h2 className={`${classes.title} ${classes.element}`}>Welcome, {user.data.fullname.split(' ')[0]}!</h2>
-    <p className={`${classes.subTitle} ${classes.element}`}>Manage your info, role, and payment details here to make Fyrii work better for you</p>
+  return (<div className={classes.container}>
+    <h2 className={classes.title}>Welcome, {user.data.fullname.split(' ')[0]}!</h2>
+    <p className={classes.subTitle}>Manage your info, role, and payment details here to make Fyrii work better for you</p>
     <Grid container>
       <HomeCard
         title="Your Organizations"
@@ -138,7 +140,7 @@ function Home() {
         link="payments"
       />
     </Grid>
-  </>);
+  </div>);
 }
 
 export default Home;

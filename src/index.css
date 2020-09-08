@@ -6,6 +6,10 @@ a:hover {
   text-decoration: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto Condensed', futura-pt;

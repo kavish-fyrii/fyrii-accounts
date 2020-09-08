@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
     width: sidebarWidth,
     background: theme.palette.secondary.main,
+    [theme.breakpoints.down('sm')]: {
+      background: '#EEF1FA',
+    },
   },
   homeButton: {
     background: theme.palette.secondary.light,
@@ -96,7 +99,7 @@ const Sidebar = (props) => {
         {Object.entries(sidebarSections).map(([key, section]) => {
           const routeMatch = location.pathname === `/${key}` || (location.pathname === '/' && key === 'home');
           return (
-            <Link to={key === 'home' ? `/` : `/${key}`} key={key}>
+            <Link to={key === 'home' ? `/` : `/${key}`} key={key} onClick={props.isSidebarOpen ? props.toggleSidebar : null}>
               <ListItem className={`${classes.item} ${routeMatch ? classes.selected : ''}`}>
                 <ListItemIcon className={`${classes.icon} ${routeMatch ? classes.selectedText : ''}`}>{section.icon}</ListItemIcon>
                 <ListItemText className={`${routeMatch ? classes.selectedText : ''}`} primary={section.name} />
@@ -109,7 +112,7 @@ const Sidebar = (props) => {
         <hr />
         <br />
         <div>
-          <Button onClick={() => { FyriiAuthHelpers.signOutFyrii(); }}>Sign Out</Button>
+          <Link to="/login"><Button onClick={() => { FyriiAuthHelpers.signOutFyrii(); }}>Sign Out</Button></Link>
         </div>
       </div>
     </div>

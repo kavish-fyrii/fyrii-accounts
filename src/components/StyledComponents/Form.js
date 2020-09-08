@@ -23,17 +23,20 @@ const styles = (theme) => ({
     },
   },
   narrowForm: {
-    width: '500px',
+    maxWidth: '500px',
+  },
+  wideForm: {
+    width: '90%',
   }
 });
 
 function Form(props) {
-  const { classes, title, narrowForm, children } = props;
+  const { classes, title, narrowForm, wideForm, children } = props;
 
   return (<>
     <div className={classes.container}>
-      <div className={`${classes.title} ${classes.form} ${narrowForm ? classes.narrowForm : ''}`}><h2>{title}</h2></div>
-      <FormControl className={`${classes.form} ${narrowForm ? classes.narrowForm : ''}`}>
+      <div className={`${classes.title} ${classes.form} ${narrowForm ? classes.narrowForm : ''} ${wideForm ? classes.wideForm : ''}`}><h2>{title}</h2></div>
+      <FormControl className={`${classes.form} ${narrowForm ? classes.narrowForm : ''} ${wideForm ? classes.wideForm : ''}`}>
         {children}
       </FormControl>
     </div>
