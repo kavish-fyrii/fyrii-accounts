@@ -3,11 +3,11 @@ import React, { useState, useEffect } from "react";
 import { TextField, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { UserContext } from '../UserContext';
-import { USER_API_PREFIX } from '../constants';
+import { UserContext } from '../../UserContext';
+import { USER_API_PREFIX } from '../../constants';
 
-import Button from './StyledComponents/Button';
-import Form from './StyledComponents/Form';
+import Button from '../StyledComponents/Button';
+import Form from '../StyledComponents/Form';
 
 const useStyles = makeStyles((theme) => ({
   textInput: {

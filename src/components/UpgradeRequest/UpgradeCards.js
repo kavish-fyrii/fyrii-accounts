@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React from "react";
 
 import {
   Button,
@@ -7,33 +6,11 @@ import {
   CardActions,
   CardContent,
   Grid,
-  CircularProgress,
-  Collapse,
 } from '@material-ui/core';
-
-import {
-  Alert,
-} from "@material-ui/lab";
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { UserContext } from '../UserContext';
-import { USER_API_PREFIX } from "../constants";
-import UpgradeRequest from "./UpgradeRequest";
-import PreviousRequests from "./PreviousRequests";
-
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(0, 4),
-  },
-  title: {
-    textAlign: 'left',
-    margin: theme.spacing(2, 0),
-  },
-  subTitle: {
-    color: '#666',
-    margin: theme.spacing(2, 0),
-  },
   card: {
     minHeight: '200px',
     color: '#444',
@@ -41,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   cardTitle: {
-    height: '55px',
+    minHeight: '55px',
     fontSize: '1.3rem',
     marginTop: theme.spacing(-1),
     background: theme.palette.secondary.light,
@@ -53,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3, 2),
   },
   cardAction: {
-    height: '48px',
+    minHeight: '48px',
     marginTop: theme.spacing(-1),
     background: theme.palette.secondary.light,
   },
@@ -61,12 +38,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     fontWeight: 600,
   },
-  successMessage: {
-    color: 'green',
-  },
 }));
 
-function AccountsCard(props) {
+function UpgradeCard(props) {
   const classes = useStyles();
 
   return (
@@ -90,51 +64,8 @@ function AccountsCard(props) {
   )
 }
 
-function Accounts() {
-  const formRef = useRef(null)
-  const classes = useStyles();
-  const user = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
-  const [title, setTitle] = useState();
-  const [type, setType] = useState();
-  const [userRoles, setUserRoles] = useState([]);
-  const [userRequests, setUserRequests] = useState([]);
-  const [success, setSuccess] = useState(false);
-  const [showPrevReqs, setShowPrevReqs] = useState(false);
-
-  useEffect(() => {
-    fetchData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  async function fetchData (silent) {
-    setLoading(!silent && true);
-
-    try {
-      const roleResponse = await axios.get(`${USER_API_PREFIX}/users/${user.data.id}/roles`);
-      setUserRoles(roleResponse.data);
-      const requestResponse = await axios.get(`${USER_API_PREFIX}/users/${user.data.id}/upgradeRequests`);
-      setUserRequests(requestResponse.data.Items);
-      setType(null);
-      setLoading(false);
-    } catch(err) {
-      console.log('error', err)
-      setLoading(false);
-    }
-  }
-
-  const upgradeClick = (title, type) => {
-    setTitle(title);
-    setType(type);
-    setTimeout(() => {
-      window.scrollTo(0, formRef?.current?.offsetTop - 50);
-    }, 250);
-  }
-
-  const togglePreviousRequests = () => {
-    setShowPrevReqs(!showPrevReqs);
-  }
-
-  if (loading) return <CircularProgress />;
+function UpgradeCards(props) {
+  const { userRoles, userRequests, upgradeClick } = props;
 
   const isAdmin = userRoles.find((role) => role.roleName === 'admin' && role.parentId === 'fyrii');
 
@@ -145,16 +76,9 @@ function Accounts() {
   const isExpertAdvisor = userRoles.find((role) => role.roleName === 'expert-advisor' && role.parentId === 'fyrii');
   const expertAdvisorRequestPending = userRequests.find((req) => req.type === 'expert-advisor' && req.requestStatus === 'pending');
 
-  return (<div className={classes.container}>
-    <h2 className={classes.title}>Manage your Account</h2>
-    <p className={classes.subTitle}>
-      Upgrading your account to Contributors or Expert Agents gives you access to important features,
-      such as providing and selling content on the Fyrii Content Bazaar, or becoming part of an extensive
-      network of sales and marketing experts under Fyrii's umbrella
-    </p>
-    {isAdmin ? <><Alert severity="info">You are recognized as an admin in the Fyrii system, which means you already have all the roles below</Alert><br /></> : null}
+  return (
     <Grid container>
-      <AccountsCard
+      <UpgradeCard
         title="Bazaar Content Provider"
         content={(<div>
           <p>
@@ -167,7 +91,7 @@ function Accounts() {
         disabled={isAdmin || isContributor}
         pending={contributorRequestPending}
       />
-      <AccountsCard
+      <UpgradeCard
         title="Marketplace Expert Agent"
         content={(<div>
           <p>
@@ -181,7 +105,7 @@ function Accounts() {
         disabled={isAdmin || isExpertAgent}
         pending={expertAgentRequestPending}
       />
-      <AccountsCard
+      <UpgradeCard
         title="Expert Advisor"
         content={(<div>
           <p>
@@ -195,32 +119,7 @@ function Accounts() {
         pending={expertAdvisorRequestPending}
       />
     </Grid>
-    <br />
-    <div ref={formRef}>
-      {success ? (<div className={classes.successMessage}>Request submitted successfully!</div>) : null}
-      {type ? <><hr />
-        <UpgradeRequest
-          title={title}
-          type={type}
-          onSuccess={() => {
-            setType(null);
-            setSuccess(true);
-            fetchData(true);
-            setTimeout(() => {
-              setSuccess(false);
-            }, 3000);
-          }}
-        /></> : null}
-    </div>
-    <div>
-      <hr />
-      <Button variant="contained" onClick={togglePreviousRequests}>See Previous Requests</Button>
-      <Collapse in={showPrevReqs}>
-        <br />
-        <PreviousRequests userRequests={userRequests} />
-      </Collapse>
-    </div>
-  </div>);
+  );
 }
 
-export default Accounts;
+export default UpgradeCards;

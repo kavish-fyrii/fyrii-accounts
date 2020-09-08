@@ -97,7 +97,7 @@ const Sidebar = (props) => {
     <div className={classes.listContainer}>
       <List className={classes.list}>
         {Object.entries(sidebarSections).map(([key, section]) => {
-          const routeMatch = location.pathname === `/${key}` || (location.pathname === '/' && key === 'home');
+          const routeMatch = location.pathname.includes(`/${key}`) || (location.pathname === '/' && key === 'home');
           return (
             <Link to={key === 'home' ? `/` : `/${key}`} key={key} onClick={props.isSidebarOpen ? props.toggleSidebar : null}>
               <ListItem className={`${classes.item} ${routeMatch ? classes.selected : ''}`}>

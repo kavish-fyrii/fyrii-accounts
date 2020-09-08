@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Route, useRouteMatch, Switch } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Sidebar from './components/Sidebar';
 import Home from './components/Home';
 import Profile from './components/Profile';
-import Accounts from './components/Accounts';
+import Account from './components/Account';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,7 +35,7 @@ function Container(props) {
         <Switch>
           <Route exact path={path} component={Home} />
           <Route exact path={`${path}profile`} component={Profile} />
-          <Route exact path={`${path}account`} component={Accounts} />
+          <Route path={`${path}account`} component={Account} />
         </Switch>
       </div>
     </div>
