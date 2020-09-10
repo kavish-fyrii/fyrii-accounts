@@ -22,12 +22,14 @@ import Confirm from './components/Auth/Confirm';
 const theme = createMuiTheme({
   palette: {
     primary: {
+      light: '#bcc1ff',
       main: '#6c71d4',
       dark: '#585ece',
     },
     secondary: {
       light: '#f9f9f9',
       main: '#EEF1FA55',
+      dark: '#666',
     },
   },
 });

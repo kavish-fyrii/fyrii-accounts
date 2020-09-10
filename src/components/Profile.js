@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { TextField, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ChipInput from 'material-ui-chip-input'
 
 import { UserContext } from '../UserContext';
 import { USER_API_PREFIX } from '../constants';
@@ -14,9 +15,13 @@ const useStyles = makeStyles((theme) => ({
     background: '#fff',
     padding: theme.spacing(2),
   },
+  chipInput: {
+    background: '#fff',
+    borderRadius: 0,
+  },
   addressLabel: {
     fontSize: '22px',
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(4),
   },
   message: {
     margin: theme.spacing(2, 0),
@@ -56,7 +61,7 @@ function Profile() {
   const [name, setName] = useState(user.data.fullname?.trim());
   const [jobTitle, setJobTitle] = useState(user.data.jobtitle?.trim());
   const [company, setCompany] = useState(user.data.company?.trim());
-  const [about, setAbout] = useState(user.data.about?.trim());
+  const [expertise, setExpertise] = useState(user.data.expertise || []);
   const [email] = useState(user.data.email?.trim());
   const [phone, setPhone] = useState(user.data.phone?.trim());
   const [website, setWebsite] = useState(user.data.website?.trim());
@@ -115,7 +120,7 @@ function Profile() {
       fullname: name,
       jobtitle: jobTitle,
       company,
-      about,
+      expertise,
       email,
       phone,
       website,
@@ -154,7 +159,18 @@ function Profile() {
         <ProfileField name="Website" defaultValue={website} onChange={(e) => { setWebsite(e.target.value) }} />
         <ProfileField xs={12} sm={6} name="Twitter" defaultValue={twitter} onChange={(e) => { setTwitter(e.target.value) }} />
         <ProfileField xs={12} sm={6} name="Linkedin" defaultValue={linkedin} onChange={(e) => { setLinkedin(e.target.value) }} />
-        <ProfileField name="Expertise" placeholder={'Enter comma separated areas of expertise'} defaultValue={about} onChange={(e) => { setAbout(e.target.value) }} />
+        <Grid item xs={12}>
+          <ChipInput
+            InputProps={{ className: classes.chipInput }}
+            label="Expertise"
+            helperText="Enter comma separated areas of expertise"
+            variant="outlined"
+            defaultValue={expertise}
+            onChange={(chips) => setExpertise(chips)}
+            fullWidth
+            newChipKeyCodes={[188]}
+          />
+        </Grid>
         <br />
         <div className={classes.addressLabel}>Address</div>
         <ProfileField name="Street" error={error} required={addressStarted} defaultValue={streetAddress} onChange={(e) => { setStreetAddress(e.target.value) }} />

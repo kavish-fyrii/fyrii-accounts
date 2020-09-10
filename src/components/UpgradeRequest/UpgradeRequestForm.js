@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import { TextField, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ChipInput from 'material-ui-chip-input'
 
 import { UserContext } from '../../UserContext';
 import { USER_API_PREFIX } from '../../constants';
@@ -14,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
     background: '#fff',
     padding: theme.spacing(2),
   },
-  addressLabel: {
-    fontSize: '22px',
-    marginTop: theme.spacing(2),
+  chipInput: {
+    background: '#fff',
+    borderRadius: 0,
   },
   message: {
     margin: theme.spacing(2, 0),
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   resumeUploadButton: {
     margin: theme.spacing(1),
+    marginTop: theme.spacing(4),
     cursor: 'pointer',
   },
   fileName: {
@@ -74,6 +76,7 @@ function UpgradeRequest(props) {
   const [company, setCompany] = useState(user.data.company?.trim());
   const [twitter, setTwitter] = useState(user.data.twitter?.trim());
   const [linkedin, setLinkedin] = useState(user.data.linkedin?.trim());
+  const [expertise, setExpertise] = useState(user.data.expertise || []);
   const [resume, setResume] = useState();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -88,6 +91,7 @@ function UpgradeRequest(props) {
       twitter,
       linkedin,
       resume,
+      expertise,
     ],
   );
 
@@ -97,6 +101,7 @@ function UpgradeRequest(props) {
      || !company || company.trim().length === 0
      || !twitter || twitter.trim().length === 0
      || !linkedin || linkedin.trim().length === 0
+     || !expertise || expertise.length === 0
      || !resume
     ) {
       setError(true);
@@ -139,6 +144,20 @@ function UpgradeRequest(props) {
         <UpgradeRequestField xs={12} sm={6} error={error} name="Company" defaultValue={company} onChange={(e) => { setCompany(e.target.value) }} />
         <UpgradeRequestField xs={12} sm={6} error={error} name="Twitter" defaultValue={twitter} onChange={(e) => { setTwitter(e.target.value) }} />
         <UpgradeRequestField xs={12} sm={6} error={error} name="Linkedin" defaultValue={linkedin} onChange={(e) => { setLinkedin(e.target.value) }} />
+        <Grid item xs={12}>
+          <ChipInput
+            InputProps={{ className: classes.chipInput }}
+            label="Expertise"
+            helperText="Enter comma separated areas of expertise"
+            variant="outlined"
+            defaultValue={expertise}
+            onChange={(chips) => setExpertise(chips)}
+            fullWidth
+            required
+            error={error}
+            newChipKeyCodes={[188]}
+          />
+        </Grid>
         <div className={classes.resumeUploadButton}>
           <Button secondary error={error && !resume}>
             <input
