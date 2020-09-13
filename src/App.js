@@ -23,7 +23,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#bcc1ff',
-      main: '#6c71d4',
+      main: '#696cd0',
       dark: '#585ece',
     },
     secondary: {
@@ -72,7 +72,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <div>
           <Navbar toggleSidebar={toggleSidebar} />
-          <div className={classes.appContainer}>
+          <div role="main" className={classes.appContainer}>
+            <h1>Fyrii Accounts</h1>
             <Switch>
               {
                 user.data ? (<>

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 2),
     zIndex: theme.zIndex.drawer + 1,
     background: theme.palette.secondary.light,
-    color: 'rgba(0, 0, 0, .5)',
+    color: '#333',
   },
   toolbar: {
     display: 'flex',
@@ -49,10 +49,10 @@ const useStyles = makeStyles((theme) => ({
   navbarName: {
     marginTop: theme.spacing(0.5),
     textDecoration: 'none',
-    color: 'rgba(0, 0, 0, .5)',
+    color: '#333',
     "&:hover": {
       textDecoration: 'none',
-      color: 'rgba(0, 0, 0, .5)',
+      color: '#333333dd',
     },
   },
   navbarButtons: {

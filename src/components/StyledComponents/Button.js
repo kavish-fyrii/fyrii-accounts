@@ -19,6 +19,8 @@ const styles = (theme) => ({
       transition: 'background 0.25s ease',
     },
     "&:focus": {
+      background: theme.palette.primary.dark,
+      transition: 'background 0.25s ease',
       outline: '0',
     },
   },

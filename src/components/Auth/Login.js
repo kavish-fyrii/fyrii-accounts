@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       textShadow: '0.3px 0.3px rgba(128, 128, 128, 0.4)',
     },
+    "&:focus": {
+      textShadow: '0.3px 0.3px rgba(128, 128, 128, 0.4)',
+      textDecoration: 'underline',
+    },
   },
   linkRight: {
     float: 'right',
@@ -59,20 +63,26 @@ function Login() {
     }
   }
 
+  const goToSignup = () => { history.push(`/signup`); };
+  const goToForgotPassword = () => { history.push(`/forgot-password`); };
+  const handleLogin = () => {
+    setLoading(true);
+    FyriiAuthHelpers.login(username, password, loginSuccess, loginFailed);
+  };
+
   return (<>
     <Form title="Login." narrowForm>
       <LoginField name="Username" onChange={(e) => { setUsername(e.target.value) }} />
       <LoginField name="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
       <div>
-        <div className={`${classes.link} ${classes.linkRight}`} onClick={() => { history.push(`/signup`); }}>Don't have an account? Sign Up</div>
-        <div className={classes.link} onClick={() => { history.push(`/forgot-password`); }}>Forgot password?</div>
+        <div className={`${classes.link} ${classes.linkRight}`} tabIndex="0" onClick={goToSignup} onKeyDown={(e) => { if (e.keyCode === 13) goToSignup(); }}>Don't have an account? Sign Up</div>
+        <div className={classes.link} tabIndex="0" onClick={goToForgotPassword} onKeyDown={(e) => { if (e.keyCode === 13) goToForgotPassword(); }}>Forgot password?</div>
         <br />
         <Button
           loading={loading}
-          onClick={() => {
-            setLoading(true);
-            FyriiAuthHelpers.login(username, password, loginSuccess, loginFailed);
-          }}
+          tabIndex="0"
+          onKeyDown={(e) => { if (e.keyCode === 13) handleLogin(); }}
+          onClick={handleLogin}
         >
           Login
         </Button>

@@ -42,7 +42,6 @@ function ProfileField(props) {
     <Grid item xs={props.xs || 12} sm={props.sm || 12}>
       <TextField
         inputProps={{ className: classes.textInput }}
-        autoComplete={props.name.toLowerCase().split(' ').join('-')}
         name={props.name.toLowerCase().split(' ').join('-')}
         variant="outlined"
         fullWidth
@@ -151,12 +150,12 @@ function Profile() {
   return (
     <Form title="Profile">
       <Grid container spacing={2}>
-        <ProfileField name="Name" error={error} required defaultValue={name} onChange={(e) => { setName(e.target.value) }} />
-        <ProfileField xs={12} sm={6} name="Email" disabled required defaultValue={email} helperText="To modify your email, please go to account settings" />
-        <ProfileField xs={12} sm={6} name="Phone" error={error} required defaultValue={phone} onChange={(e) => { setPhone(e.target.value) }} />
+        <ProfileField name="Name" error={error} autoComplete="name" required defaultValue={name} onChange={(e) => { setName(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Email" autoComplete="email" disabled required defaultValue={email} helperText="To modify your email, please go to account settings" />
+        <ProfileField xs={12} sm={6} name="Phone" autoComplete="tel" error={error} required defaultValue={phone} onChange={(e) => { setPhone(e.target.value) }} />
         <ProfileField xs={12} sm={6} name="Job Title" defaultValue={jobTitle} onChange={(e) => { setJobTitle(e.target.value) }} />
         <ProfileField xs={12} sm={6} name="Company" defaultValue={company} onChange={(e) => { setCompany(e.target.value) }} />
-        <ProfileField name="Website" defaultValue={website} onChange={(e) => { setWebsite(e.target.value) }} />
+        <ProfileField name="Website" autoComplete="url" defaultValue={website} onChange={(e) => { setWebsite(e.target.value) }} />
         <ProfileField xs={12} sm={6} name="Twitter" defaultValue={twitter} onChange={(e) => { setTwitter(e.target.value) }} />
         <ProfileField xs={12} sm={6} name="Linkedin" defaultValue={linkedin} onChange={(e) => { setLinkedin(e.target.value) }} />
         <Grid item xs={12}>
@@ -173,11 +172,11 @@ function Profile() {
         </Grid>
         <br />
         <div className={classes.addressLabel}>Address</div>
-        <ProfileField name="Street" error={error} required={addressStarted} defaultValue={streetAddress} onChange={(e) => { setStreetAddress(e.target.value) }} />
-        <ProfileField xs={12} sm={6} name="City" error={error} required={addressStarted}  defaultValue={city} onChange={(e) => { setCity(e.target.value) }} />
-        <ProfileField xs={12} sm={6} name="State" error={error} required={addressStarted} defaultValue={state} onChange={(e) => { setState(e.target.value) }} />
-        <ProfileField xs={12} sm={6} name="Zip" error={error} required={addressStarted}  defaultValue={zip} onChange={(e) => { setZip(e.target.value) }} />
-        <ProfileField xs={12} sm={6} name="Country" error={error} required={addressStarted} defaultValue={country} onChange={(e) => { setCountry(e.target.value) }} />
+        <ProfileField name="Street" autoComplete="street-address" error={error} required={addressStarted} defaultValue={streetAddress} onChange={(e) => { setStreetAddress(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="City" autoComplete="address-level2" error={error} required={addressStarted}  defaultValue={city} onChange={(e) => { setCity(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="State" autoComplete="address-level1" error={error} required={addressStarted} defaultValue={state} onChange={(e) => { setState(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Zip" autoComplete="postal-code" error={error} required={addressStarted}  defaultValue={zip} onChange={(e) => { setZip(e.target.value) }} />
+        <ProfileField xs={12} sm={6} name="Country" autoComplete="country" error={error} required={addressStarted} defaultValue={country} onChange={(e) => { setCountry(e.target.value) }} />
       </Grid>
       <div className={classes.message}>
         {error ? (<div className={classes.errorMessage}>There was an error saving your information. Please ensure all required fields are filled.</div>) : null}

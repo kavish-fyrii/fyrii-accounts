@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.secondary.light,
   },
   cardButton: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.dark,
     fontWeight: 600,
   },
 }));

@@ -49,12 +49,19 @@ function Signup() {
   const signupSuccess = () => {
     setLoading(false);
     history.push('/confirm');
-  }
+  };
 
   const signupFailed = (err) => {
     console.error('signupFailed', err.message ? `${err.code} ${err.message}` : JSON.stringify(err));
     setLoading(false);
-  }
+  };
+
+  const goToLogin = () => { history.push(`/login`); };
+  const handleSignup = () => {
+    if (password !== password2) return;
+    setLoading(true);
+    FyriiAuthHelpers.signup({ name, jobTitle, email, phone, username, password }, signupSuccess, signupFailed);
+  };
 
   return (<>
     <Form title="Sign up." narrowForm>
@@ -66,15 +73,12 @@ function Signup() {
       <SignupField name="Password" type="password" required onChange={(e) => { setPassword(e.target.value) }} />
       <SignupField name="Confirm Password" type="password" required onChange={(e) => { setPassword2(e.target.value) }} />
       <div>
-        <div className={classes.link} onClick={() => { history.push(`/login`); }}>Already have an account? Sign in</div>
+        <div className={classes.link} onClick={goToLogin} onKeyDown={(e) => { if (e.keyCode === 13) goToLogin(); }}>Already have an account? Sign in</div>
         <br />
         <Button
           loading={loading}
-          onClick={() => {
-            if (password !== password2) return;
-            setLoading(true);
-            FyriiAuthHelpers.signup({ name, jobTitle, email, phone, username, password }, signupSuccess, signupFailed);
-          }}
+          onKeyDown={(e) => { if (e.keyCode === 13) handleSignup(); }}
+          onClick={handleSignup}
         >
           Sign up
         </Button>

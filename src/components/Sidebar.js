@@ -58,18 +58,26 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     margin: theme.spacing(1, 0),
     padding: theme.spacing(0.5, 4),
-    color: '#467fcf',
+  },
+  link: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    color: '#3069B9',
     "&:hover": {
-      color: theme.palette.primary.light,
+      color: theme.palette.primary.main,
       transition: 'color 0.25s ease',
     },
   },
   selected: {
     background: 'rgba(130, 122, 230, 0.07)',
   },
+  child: {
+    paddingLeft: theme.spacing(5),
+  },
   icon: {
     minWidth: '30px',
-    color: '#467fcf',
+    color: '#3069B9',
   },
   selectedText: {
     color: theme.palette.primary.dark,
@@ -86,6 +94,7 @@ const sidebarSections = {
   home: { name: 'Home', icon: <HomeIcon fontSize="small" /> },
   profile: { name: 'Profile', icon: <PersonIcon fontSize="small" /> },
   account: { name: 'Account', icon: <LockIcon fontSize="small" /> },
+  upgrade: { name: 'Upgrade Account', icon: <LockIcon fontSize="small" />, parent: 'account' },
   payments: { name: 'Payments', icon: <PaymentIcon fontSize="small" /> },
 };
 
@@ -97,14 +106,22 @@ const Sidebar = (props) => {
     <div className={classes.listContainer}>
       <List className={classes.list}>
         {Object.entries(sidebarSections).map(([key, section]) => {
-          const routeMatch = location.pathname.includes(`/${key}`) || (location.pathname === '/' && key === 'home');
+          let routeMatch = location.pathname === `/${key}` || (location.pathname === '/' && key === 'home');
+          if (section.parent) {
+            const childRouteMatch = location.pathname === `/${section.parent}/${key}`;
+            if (!childRouteMatch) {
+              return null;
+            }
+            routeMatch = true;
+          }
+
           return (
-            <Link to={key === 'home' ? `/` : `/${key}`} key={key} onClick={props.isSidebarOpen ? props.toggleSidebar : null}>
-              <ListItem className={`${classes.item} ${routeMatch ? classes.selected : ''}`}>
+            <ListItem className={`${classes.item} ${routeMatch ? classes.selected : ''} ${section.parent ? classes.child : ''}`}>
+              <Link className={classes.link} to={key === 'home' ? `/` : `/${key}`} key={key} onClick={props.isSidebarOpen ? props.toggleSidebar : null}>
                 <ListItemIcon className={`${classes.icon} ${routeMatch ? classes.selectedText : ''}`}>{section.icon}</ListItemIcon>
                 <ListItemText className={`${routeMatch ? classes.selectedText : ''}`} primary={section.name} />
-              </ListItem>
-            </Link>
+              </Link>
+            </ListItem>
           )
         })}
       </List>

@@ -154,7 +154,7 @@ function UpgradeRequest(props) {
             onChange={(chips) => setExpertise(chips)}
             fullWidth
             required
-            error={error}
+            error={error && (!expertise || expertise.length === 0)}
             newChipKeyCodes={[188]}
           />
         </Grid>
