@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   homeButtonImg: {
     width: '90px',
-    height: 'auto',
+    height: '30px',
     paddingRight: '7px',
     paddingBottom: '2px',
   },

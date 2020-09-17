@@ -32,7 +32,7 @@ function Confirm() {
 
   const confirmSuccess = () => {
     setLoading(false);
-    history.push('/');
+    window.location.replace('/');
   }
 
   const confirmFailed = (err) => {

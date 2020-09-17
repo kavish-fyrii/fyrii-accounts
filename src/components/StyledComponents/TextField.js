@@ -16,7 +16,7 @@ function Field(props) {
   const { classes, children } = props;
 
   return (
-    <TextField {...props} className={classes.root} inputProps={{ className: classes.textInput }} tabIndex={0}>
+    <TextField {...props} className={classes.root} inputProps={{ className: classes.textInput }}>
       {children}
     </TextField>
   );

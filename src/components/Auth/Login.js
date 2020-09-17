@@ -75,12 +75,12 @@ function Login() {
       <LoginField name="Username" onChange={(e) => { setUsername(e.target.value) }} />
       <LoginField name="Password" type="password" onChange={(e) => { setPassword(e.target.value) }} />
       <div>
-        <div className={`${classes.link} ${classes.linkRight}`} tabIndex="0" onClick={goToSignup} onKeyDown={(e) => { if (e.keyCode === 13) goToSignup(); }}>Don't have an account? Sign Up</div>
-        <div className={classes.link} tabIndex="0" onClick={goToForgotPassword} onKeyDown={(e) => { if (e.keyCode === 13) goToForgotPassword(); }}>Forgot password?</div>
+        <div className={`${classes.link} ${classes.linkRight}`} tabIndex={0} onClick={goToSignup} onKeyDown={(e) => { if (e.keyCode === 13) goToSignup(); }}>Don't have an account? Sign Up</div>
+        <div className={classes.link} tabIndex={0} onClick={goToForgotPassword} onKeyDown={(e) => { if (e.keyCode === 13) goToForgotPassword(); }}>Forgot password?</div>
         <br />
         <Button
           loading={loading}
-          tabIndex="0"
+          tabIndex={0}
           onKeyDown={(e) => { if (e.keyCode === 13) handleLogin(); }}
           onClick={handleLogin}
         >
