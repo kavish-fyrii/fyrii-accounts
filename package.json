@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "dotenv": "^8.2.0",
-    "fyrii-auth": "git+ssh://github.com/fyrii/fyrii-auth.git#loginHelpers",
+    "fyrii-auth": "kavish-fyrii/fyrii-auth#loginHelpers",
     "material-ui-chip-input": "^2.0.0-beta.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
