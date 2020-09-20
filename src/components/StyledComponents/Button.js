@@ -33,6 +33,24 @@ const styles = (theme) => ({
       background: '#f9f9f9',
       transition: 'background 0.25s ease',
     },
+    "&:focus": {
+      background: '#f9f9f9',
+      transition: 'background 0.25s ease',
+      outline: '0',
+    },
+  },
+  transparent: {
+    background: 'transparent',
+    boxShadow: 'none',
+    "&:hover": {
+      outline: '0',
+      background: 'transparent',
+      boxShadow: '1px 1px 1px #6c71d473',
+    },
+    "&:focus": {
+      background: 'transparent',
+      outline: '0',
+    },
   },
   loading: {
     padding: '5px',
@@ -43,10 +61,11 @@ const styles = (theme) => ({
 });
 
 function AppButton(props) {
-  const { classes, children, loading, secondary, error, onClick, size } = props;
+  const { classes, children, loading, secondary, transparent, error, onClick, size } = props;
   const classNames = [classes.root];
   if (loading || size === 'small') classNames.push(classes.loading);
   if (secondary) classNames.push(classes.secondary);
+  if (transparent) classNames.push(classes.transparent);
   if (error) classNames.push(classes.error);
 
   const spinner = (<img width={68} height={32} src={Spinner} alt="loading" />)

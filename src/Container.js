@@ -7,6 +7,7 @@ import Sidebar from './components/Sidebar';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Account from './components/Account';
+import Payment from './components/Payment';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,6 +37,7 @@ function Container(props) {
           <Route exact path={path} component={Home} />
           <Route exact path={`${path}profile`} component={Profile} />
           <Route path={`${path}account`} component={Account} />
+          <Route path={`${path}payments`} component={Payment} />
         </Switch>
       </div>
     </div>

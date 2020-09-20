@@ -116,8 +116,8 @@ const Sidebar = (props) => {
           }
 
           return (
-            <ListItem className={`${classes.item} ${routeMatch ? classes.selected : ''} ${section.parent ? classes.child : ''}`}>
-              <Link className={classes.link} to={key === 'home' ? `/` : `/${key}`} key={key} onClick={props.isSidebarOpen ? props.toggleSidebar : null}>
+            <ListItem key={key} className={`${classes.item} ${routeMatch ? classes.selected : ''} ${section.parent ? classes.child : ''}`}>
+              <Link className={classes.link} to={key === 'home' ? `/` : `/${key}`} onClick={props.isSidebarOpen ? props.toggleSidebar : null}>
                 <ListItemIcon className={`${classes.icon} ${routeMatch ? classes.selectedText : ''}`}>{section.icon}</ListItemIcon>
                 <ListItemText className={`${routeMatch ? classes.selectedText : ''}`} primary={section.name} />
               </Link>

@@ -100,7 +100,7 @@ function NavBar(props) {
             {user.data ? (
               <div className={classes.navBarGreeting}>
                 <div className={classes.navBarGreetingText}>Welcome, {user.data.fullname.split(' ')[0]}!</div>
-                <Link to="/login"><Button onClick={() => { FyriiAuthHelpers.signOutFyrii(); if (props.history) props.history.push('/login') }}>Sign Out</Button></Link>
+                <Button onClick={() => { FyriiAuthHelpers.signOutFyrii(() => { window.location.replace('/') }); }}>Sign Out</Button>
               </div>
             ) : (
               <React.Fragment>
